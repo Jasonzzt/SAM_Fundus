@@ -1,0 +1,4 @@
+notebooks/models/IDRiD.pt filter=lfs diff=lfs merge=lfs -text
+notebooks/models/sam_vit_b_01ec64.pth filter=lfs diff=lfs merge=lfs -text
+notebooks/automatic_mask_generator_example.ipynb filter=lfs diff=lfs merge=lfs -text
+notebooks/checkpoints/IDRiD.pt filter=lfs diff=lfs merge=lfs -text
