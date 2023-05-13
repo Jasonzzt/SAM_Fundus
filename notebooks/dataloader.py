@@ -35,10 +35,10 @@ class GetLoader(torch.utils.data.Dataset):
 
     def __getitem__(self, index):
 
-        data0 = Image.open(self.data[index])
-        # data0 = cv2.imread(self.data[index])
-        # data0 = cv2.cvtColor(data0, cv2.COLOR_BGR2RGB)
-        data0 = data_transform[self.category](data0)
+        # data0 = Image.open(self.data[index])
+        data0 = cv2.imread(self.data[index])
+        data0 = cv2.cvtColor(data0, cv2.COLOR_BGR2RGB)
+        # data0 = data_transform[self.category](data0)
         # data0 = np.array(data0)
         # data0 = torch.tensor(data0)
         labels = torch.from_numpy(np.array(self.label[index]))
@@ -66,7 +66,6 @@ class GetLoader2(torch.utils.data.Dataset):
         data_orig = cv2.imread(self.data[index])
         data_od = Image.open(self.od[index])
         data_orig = cv2.cvtColor(data_orig, cv2.COLOR_BGR2RGB)
-        # print(data_orig.shape)
         # data_od = cv2.cvtColor(data_od, cv2.COLOR_BGR2RGB)
         # data_orig = data_transform[self.category](data_orig)
         # data_orig = np.array(data_orig)
@@ -120,9 +119,9 @@ def load_data():
     valid_img = np.array(valid_img).astype(str)
     valid_coordinate = np.array(valid_coordinate).astype(int)
     train_data_IDRiD = torch.utils.data.DataLoader(
-        GetLoader(train_img, train_label, train_coordinate, "train"), batch_size=4, sampler=sampler)
+        GetLoader(train_img, train_label, train_coordinate, "train"), batch_size=2, sampler=sampler)
     valid_data_IDRiD = torch.utils.data.DataLoader(
-        GetLoader(valid_img, valid_label, valid_coordinate, "valid"), batch_size=4, shuffle=True)
+        GetLoader(valid_img, valid_label, valid_coordinate, "valid"), batch_size=2, shuffle=True)
     
     return train_data_IDRiD, valid_data_IDRiD
 
@@ -161,9 +160,9 @@ def load_data2():
 
     
     train_data_IDRiD_od = torch.utils.data.DataLoader(
-        GetLoader2(train_img, train_od, train_coordinate, "train"), batch_size=4, shuffle=True)
+        GetLoader2(train_img, train_od, train_coordinate, "train"), batch_size=2, shuffle=True)
     valid_data_IDRiD_od = torch.utils.data.DataLoader(
-        GetLoader2(valid_img, valid_od, valid_coordinate, "valid"), batch_size=4, shuffle=True)
+        GetLoader2(valid_img, valid_od, valid_coordinate, "valid"), batch_size=2, shuffle=True)
 
     return train_data_IDRiD_od, valid_data_IDRiD_od
     
