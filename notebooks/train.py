@@ -248,7 +248,7 @@ def train_and_valid(model, model2, loss_function1, loss_function2, loss_function
                     opt_x, opt_y, opt_w, opt_h = x, y, w, h
                     opt_center = center
             # mask.append(batch_output[i]['masks'][0][j])
-            center_t.append([x,y,w,h])
+            center_t.append([opt_x, opt_y, opt_w, opt_h])
             loss2_temp = loss_function2(opt_center, coordinates_classification_train[i])
             loss2_temp.requires_grad_(True)
             loss2 += loss2_temp
