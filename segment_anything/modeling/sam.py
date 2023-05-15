@@ -121,7 +121,7 @@ class Sam(nn.Module):
                 input_size=image_record["image"].shape[-2:],
                 original_size=image_record["original_size"],
             )
-            masks = masks > self.mask_threshold
+#             masks = masks > self.mask_threshold
             outputs.append(
                 {
                     "masks": masks,
