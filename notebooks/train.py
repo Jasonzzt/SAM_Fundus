@@ -18,6 +18,7 @@ from segment_anything import sam_model_registry, SamPredictor
 import numpy as np
 import torch
 import cv2
+import monai
 from pcgrad import PCGrad
 from segment_anything.utils.transforms import ResizeLongestSide
 data_transform = {
@@ -95,7 +96,8 @@ class SoftDiceLoss(nn.Module):
     
 loss_func1 = nn.CrossEntropyLoss()
 loss_func2 = nn.MSELoss()
-loss_func3 = SoftDiceLoss()
+# loss_func3 = SoftDiceLoss()
+loss_func3 = monai.losses.DiceCELoss(sigmoid=True, squared_pred=True, reduction='mean')
 # optimizer = torch.optim.SGD(resnet50.parameters(), lr=0.001, momentum=0.9)
 optimizer = PCGrad(torch.optim.SGD([{'params': sam.parameters()},{'params': resnet50.parameters()}], lr=0.001, momentum=0.9, weight_decay=5e-4))
 def train_and_valid(model, model2, loss_function1, loss_function2, loss_function3, optimizer, epochs=25):
@@ -192,7 +194,7 @@ def train_and_valid(model, model2, loss_function1, loss_function2, loss_function
                     min_dice = dice(batch_output[i]['masks'][0][k], image_od_segmentation_train[i])
                     j = k
             loss3_temp = loss_function3(batch_output[i]['masks'][0][j], image_od_segmentation_train[i])
-            loss3_temp.requires_grad_(True)
+#             loss3_temp.requires_grad_(True)
             loss3 += loss3_temp
         # for i, (mask, score) in enumerate(zip(masks, scores)):
         #     if min_dice > dice(mask, image_od_segmentation_train[0]):
